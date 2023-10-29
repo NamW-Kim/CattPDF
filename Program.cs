@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 // This loads data portion of the file
 DataTable datatable = new DataTable();
-StreamReader streamreader = new StreamReader("PDF/data.txt");
+StreamReader streamreader = new StreamReader(AppContext.BaseDirectory + "PDF/data.txt");
 char[] delimiter = new char[] { '\t' };
 string[] columnheaders = streamreader.ReadLine().Split(delimiter);
 foreach (string columnheader in columnheaders)
@@ -14,7 +14,7 @@ foreach (string columnheader in columnheaders)
     datatable.Columns.Add(columnheader);
 }
 
-streamreader = new StreamReader("PDF/data.txt"); // RESET COUNT
+streamreader = new StreamReader(AppContext.BaseDirectory + "PDF/data.txt"); // RESET COUNT
 
 while (streamreader.Peek() > 0)
 {
@@ -42,8 +42,8 @@ foreach (DataRow row in datatable.Rows)
 // This loads PDF reader
 PdfDocument BOL_DOCUMENT = new PdfDocument();
 PdfDocument CUSTOM_DOCUMENT = new PdfDocument();
-BOL_DOCUMENT.LoadFromFile("PDF/BOL.pdf");
-CUSTOM_DOCUMENT.LoadFromFile("PDF/CUSTOM.pdf");
+BOL_DOCUMENT.LoadFromFile(AppContext.BaseDirectory+"PDF/BOL.pdf");
+CUSTOM_DOCUMENT.LoadFromFile(AppContext.BaseDirectory + "PDF/CUSTOM.pdf");
 PdfFormWidget? formWidgetBOL = BOL_DOCUMENT.Form as PdfFormWidget;
 PdfFormWidget? formWidgetCUSTOM = CUSTOM_DOCUMENT.Form as PdfFormWidget;
 
@@ -253,7 +253,7 @@ foreach (DataRow row in datatable.Rows)
         }
     }
     // Export to PDF
-    BOL_DOCUMENT.SaveToFile("Export/BOL Target "+ row[datatable.Columns[1]].ToString() +" "+ DateTime.Today.ToString("d") + ".pdf");
+    BOL_DOCUMENT.SaveToFile(AppContext.BaseDirectory + "Export/BOL Target " + row[datatable.Columns[1]].ToString() +" "+ DateTime.Today.ToString("d") + ".pdf");
 
 }
 
@@ -408,7 +408,7 @@ foreach (DataRow row in datatable.Rows)
         }
     }
     // Export to PDF
-    CUSTOM_DOCUMENT.SaveToFile("Export/PCB Customs Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf");
+    CUSTOM_DOCUMENT.SaveToFile(AppContext.BaseDirectory + "Export/PCB Customs Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf");
 
 }
 
