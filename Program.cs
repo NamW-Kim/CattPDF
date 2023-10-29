@@ -1,8 +1,11 @@
 ﻿using Spire.Pdf;
 using Spire.Pdf.Fields;
+using Spire.Pdf.Graphics;
 using Spire.Pdf.Widget;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.InteropServices;
 
 // This loads data portion of the file
 DataTable datatable = new DataTable();
@@ -283,12 +286,22 @@ foreach (DataRow row in datatable.Rows)
                         textBoxField.Text = "Target DC " + row[datatable.Columns[1]];
                         break;
                     case "4 Consignee Address": // SHIP TO ADDRESS 1ST LINE + 2ND LINE
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
+                            //textBoxField.FontSizeAuto = true;
+                        }
                         textBoxField.Text = row[datatable.Columns[3]].ToString() + "\n" + row[datatable.Columns[4]].ToString() + ", " + row[datatable.Columns[5]].ToString() + " " + Convert.ToInt32(row[datatable.Columns[6]]).ToString("00000");
                         break;
                     case "5 Buyer Name": // Hard Code BUYER INFO
                         textBoxField.Text = "Target Corp C/O CHRLTL";
                         break;
                     case "3 Other Ref Nos": // CUSTOMER ORDER INFO: CUSTOMER ORDER NUMBER
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
+                            //textBoxField.FontSizeAuto = true;
+                        }
                         textBoxField.Text = "BOL:\n "+row[datatable.Columns[20]].ToString() + "\n \n PO:\n " + row[datatable.Columns[0]].ToString();
                         break;
                     case "18_1": // CUSTOMER ORDER INFO: NUMBER OF PKGS
@@ -331,6 +344,11 @@ foreach (DataRow row in datatable.Rows)
                         textBoxField.Text = "(Jeerus's Phone #) // 7788892043";
                         break;
                     case "2 Exporter Address": // EXPORTER CONTACT
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 12), true);
+                            //textBoxField.FontSizeAuto = true;
+                        }
                         textBoxField.Text = "7500 Winston Street, Unit 108\nBurnaby, BC V5A 4J8";
                         break;
                     case "4 Consignee IRS EIN SSN": // CONSIGNEE IRS EIN SSN

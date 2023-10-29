@@ -5,7 +5,12 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>untitled_etN_1.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="untitled_etN_1.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FreeSpire.PDF" Version="8.6.0" />
