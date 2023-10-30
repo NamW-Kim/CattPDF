@@ -199,6 +199,7 @@ foreach (DataRow row in datatable.Rows)
         }
     }
     // Export to PDF
+    Console.WriteLine("Successfully created: \"" + "Export/BOL Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf\"");
     BOL_DOCUMENT.SaveToFile(AppContext.BaseDirectory + "Export/BOL Target " + row[datatable.Columns[1]].ToString() +" "+ DateTime.Today.ToString("d") + ".pdf");
 
 }
@@ -225,8 +226,25 @@ foreach (DataRow row in datatable.Rows)
                     case "23 Date":
                         textBoxField.Text = DateTime.Today.ToString("d");
                         break;
-                    case "34 Date":
+                    case "34 Date": // BOTTOM DATE
                         textBoxField.Text = DateTime.Today.ToString("d");
+                        break;
+                    case "1 Shipper Name": // SHIPPER NAME
+                        textBoxField.Text = "Tru Earth Environmental Products Inc.";
+                        break;
+                    case "1 Shipper Contact": // SHIPPER CONTACT
+                        textBoxField.Text = "Boris Vahrusev";
+                        break;
+                    case "1 Shipper Phone": // SHIPPER PHONE
+                        textBoxField.Text = "(437) 232-8258";
+                        break;
+                    case "1 Shipper Address": // SHIPPER ADDRESS
+                        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
+                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
+                            //textBoxField.FontSizeAuto = true;
+                        }
+                        textBoxField.Text = "3500 Ridgeway Drive, Units 4-6\nMississauga, ON L5L 0A2";
                         break;
                     case "4 Consignee Name": // SHIP TO NAME
                         textBoxField.Text = "Target DC " + row[datatable.Columns[1]];
@@ -287,7 +305,7 @@ foreach (DataRow row in datatable.Rows)
                         textBoxField.Text = "Jeerus Singla // Catt Kim";
                         break;
                     case "2 Exporter Phone": // EXPORTER CONTACT
-                        textBoxField.Text = "(Jeerus's Phone #) // 7788892043";
+                        textBoxField.Text = "(Jeerus's Phone #) // (778) 889-2043";
                         break;
                     case "2 Exporter Address": // EXPORTER CONTACT
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -336,6 +354,7 @@ foreach (DataRow row in datatable.Rows)
         }
     }
     // Export to PDF
+    Console.WriteLine("Successfully created: \"" + "Export/PCB Customs Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf\"");
     CUSTOM_DOCUMENT.SaveToFile(AppContext.BaseDirectory + "Export/PCB Customs Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf");
 
 }
