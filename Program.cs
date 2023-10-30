@@ -27,6 +27,7 @@ while (streamreader.Peek() > 0)
 }
 
 // TEST PRINT OF 2D ARRAY DATATABLE
+/*
 foreach (DataRow row in datatable.Rows)
 {
     Console.WriteLine("----Row No: " + datatable.Rows.IndexOf(row) + "----");
@@ -36,6 +37,7 @@ foreach (DataRow row in datatable.Rows)
         Console.WriteLine(row[column]);
     }
 }
+*/
 
 // What does this do? It makes CMD line halt
 // Console.ReadLine();
@@ -194,65 +196,6 @@ foreach (DataRow row in datatable.Rows)
                         break;
                 }
             }
-
-            /*
-            if (field is PdfListBoxWidgetFieldWidget)
-            {
-                PdfListBoxWidgetFieldWidget listBoxField = field as PdfListBoxWidgetFieldWidget;
-                switch (listBoxField.Name)
-                {
-                    case "email_format":
-                        int[] index = { 1 };
-                        listBoxField.SelectedIndex = index;
-                        break;
-                }
-            }
-
-            if (field is PdfComboBoxWidgetFieldWidget)
-            {
-                PdfComboBoxWidgetFieldWidget comBoxField = field as PdfComboBoxWidgetFieldWidget;
-                switch (comBoxField.Name)
-                {
-                    case "title":
-                        int[] items = { 0 };
-                        comBoxField.SelectedIndex = items;
-                        break;
-                }
-            }
-
-            if (field is PdfRadioButtonListFieldWidget)
-            {
-                PdfRadioButtonListFieldWidget radioBtnField = field as PdfRadioButtonListFieldWidget;
-                switch (radioBtnField.Name)
-                {
-                    case "country":
-                        radioBtnField.SelectedIndex = 1;
-                        break;
-                }
-            }
-
-            if (field is PdfCheckBoxWidgetFieldWidget)
-            {
-                PdfCheckBoxWidgetFieldWidget checkBoxField = field as PdfCheckBoxWidgetFieldWidget;
-                switch (checkBoxField.Name)
-                {
-                    case "agreement_of_terms":
-                        checkBoxField.Checked = true;
-                        break;
-                }
-            }
-            if (field is PdfButtonWidgetFieldWidget)
-            {
-                PdfButtonWidgetFieldWidget btnField = field as PdfButtonWidgetFieldWidget;
-                switch (btnField.Name)
-                {
-                    case "submit":
-                        btnField.Text = "Submit";
-                        break;
-                }
-            }
-
-            */
         }
     }
     // Export to PDF
@@ -280,6 +223,9 @@ foreach (DataRow row in datatable.Rows)
                 switch (textBoxField.Name)
                 {
                     case "23 Date":
+                        textBoxField.Text = DateTime.Today.ToString("d");
+                        break;
+                    case "34 Date":
                         textBoxField.Text = DateTime.Today.ToString("d");
                         break;
                     case "4 Consignee Name": // SHIP TO NAME
@@ -375,12 +321,6 @@ foreach (DataRow row in datatable.Rows)
                     case "16_1": // COUNTRY OF ORIGIN
                         textBoxField.Text = "CA";
                         break;
-
-                    // -------------------------------------------------------------------
-
-                    case "boln": //BOL NUMBER
-                        textBoxField.Text = row[datatable.Columns[2]].ToString();
-                        break;
                     case "11 LOCAL CARRIER": //CARRIER NAME: FEDEX OR RDWY
                         if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
                         {
@@ -389,36 +329,6 @@ foreach (DataRow row in datatable.Rows)
                         else
                         {
                             textBoxField.Text = "RDWY";
-                        }
-                        break;
-                    case "scac": //SCAC NAME: FEDEX (FDEG OR RDWY)
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "FDEG";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "RDWY";
-                        }
-                        break;
-                    case "class1": //LTL ONLY: First Line of Class
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "55";
-                        }
-                        break;
-                    case "asi1": //CUSTOMER ORDER INFORMATION: ADDITIONAL SHIPPER INFO
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "Individual Carton(s)";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "Pure Pallet(s)";
                         }
                         break;
                 }
