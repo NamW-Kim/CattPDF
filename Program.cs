@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 // This loads data portion of the file
 DataTable datatable = new DataTable();
-StreamReader streamreader = new StreamReader(AppContext.BaseDirectory + "PDF/data.txt");
+StreamReader streamreader = new StreamReader(AppContext.BaseDirectory + "Source/data.txt");
 char[] delimiter = new char[] { '\t' };
 string[] columnheaders = streamreader.ReadLine().Split(delimiter);
 foreach (string columnheader in columnheaders)
@@ -17,7 +17,7 @@ foreach (string columnheader in columnheaders)
     datatable.Columns.Add(columnheader);
 }
 
-streamreader = new StreamReader(AppContext.BaseDirectory + "PDF/data.txt"); // RESET COUNT
+streamreader = new StreamReader(AppContext.BaseDirectory + "Source/data.txt"); // RESET COUNT
 
 while (streamreader.Peek() > 0)
 {
@@ -47,8 +47,8 @@ foreach (DataRow row in datatable.Rows)
 // This loads PDF reader
 PdfDocument BOL_DOCUMENT = new PdfDocument();
 PdfDocument CUSTOM_DOCUMENT = new PdfDocument();
-BOL_DOCUMENT.LoadFromFile(AppContext.BaseDirectory+"PDF/BOL.pdf");
-CUSTOM_DOCUMENT.LoadFromFile(AppContext.BaseDirectory + "PDF/CUSTOM.pdf");
+BOL_DOCUMENT.LoadFromFile(AppContext.BaseDirectory+ "Source/BOL.pdf");
+CUSTOM_DOCUMENT.LoadFromFile(AppContext.BaseDirectory + "Source/CUSTOM.pdf");
 PdfFormWidget? formWidgetBOL = BOL_DOCUMENT.Form as PdfFormWidget;
 PdfFormWidget? formWidgetCUSTOM = CUSTOM_DOCUMENT.Form as PdfFormWidget;
 
@@ -171,7 +171,7 @@ foreach (DataRow row in datatable.Rows)
                         }
                         else
                         {
-                            textBoxField.Text = "RDWY";
+                            textBoxField.Text = "RBRL";
                         }
                         break;
                     case "class1": //LTL ONLY: First Line of Class
@@ -199,7 +199,7 @@ foreach (DataRow row in datatable.Rows)
         }
     }
     // Export to PDF
-    Console.WriteLine("Successfully created: \"" + "Export/BOL Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf\"");
+    Console.WriteLine("Successfully created: \"" + "BOL Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf\"");
     BOL_DOCUMENT.SaveToFile(AppContext.BaseDirectory + "Export/BOL Target " + row[datatable.Columns[1]].ToString() +" "+ DateTime.Today.ToString("d") + ".pdf");
 
 }
@@ -302,10 +302,10 @@ foreach (DataRow row in datatable.Rows)
                         textBoxField.Text = "Tru Earth Environmental Products Inc.";
                         break;
                     case "2 Exporter Contact": // EXPORTER CONTACT
-                        textBoxField.Text = "Jeerus Singla // Catt Kim";
+                        textBoxField.Text = "Jeerus Singla";
                         break;
                     case "2 Exporter Phone": // EXPORTER CONTACT
-                        textBoxField.Text = "(Jeerus's Phone #) // (778) 889-2043";
+                        textBoxField.Text = "(236) 326-3854";
                         break;
                     case "2 Exporter Address": // EXPORTER CONTACT
                         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -354,7 +354,7 @@ foreach (DataRow row in datatable.Rows)
         }
     }
     // Export to PDF
-    Console.WriteLine("Successfully created: \"" + "Export/PCB Customs Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf\"");
+    Console.WriteLine("Successfully created: \"" + "PCB Customs Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf\"");
     CUSTOM_DOCUMENT.SaveToFile(AppContext.BaseDirectory + "Export/PCB Customs Target " + row[datatable.Columns[1]].ToString() + " " + DateTime.Today.ToString("d") + ".pdf");
 
 }
