@@ -12,9 +12,19 @@ DataTable datatable = new DataTable();
 StreamReader streamreader = new StreamReader(AppContext.BaseDirectory + "Source/data.txt");
 char[] delimiter = new char[] { '\t' };
 string[] columnheaders = streamreader.ReadLine().Split(delimiter);
-foreach (string columnheader in columnheaders)
+
+var uniqueHeadersList = columnheaders.Distinct().ToList();
+
+if (uniqueHeadersList.length !== columnheaders.length)
 {
-    datatable.Columns.Add(columnheader);
+    // TODO 
+    // found a dupe header. 
+    
+} else {
+    foreach (string columnheader in columnheaders)
+    {
+        datatable.Columns.Add(columnheader);
+    }
 }
 
 streamreader = new StreamReader(AppContext.BaseDirectory + "Source/data.txt"); // RESET COUNT
@@ -56,9 +66,8 @@ PdfFormWidget? formWidgetCUSTOM = CUSTOM_DOCUMENT.Form as PdfFormWidget;
 foreach (DataRow row in datatable.Rows)
 {
     // Write to PDF
-    for (int i = 0; i < formWidgetBOL.FieldsWidget.List.Count; i++)
+    foreach (PdfField field in formWidgetBOL.FieldsWidget.List)
     {
-        PdfField field = formWidgetBOL.FieldsWidget.List[i] as PdfField;
 
         string fieldName = field.Name;
         //Console.WriteLine(fieldName);
