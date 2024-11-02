@@ -55,146 +55,142 @@ PdfFormWidget? formWidgetCUSTOM = CUSTOM_DOCUMENT.Form as PdfFormWidget;
 // THIS IS ENTIRELY FOR BOL GENERATION
 foreach (DataRow row in datatable.Rows)
 {
-    foreach (DataColumn column in datatable.Columns)
+    // Write to PDF
+    for (int i = 0; i < formWidgetBOL.FieldsWidget.List.Count; i++)
     {
-        
-        // Write to PDF
-        for (int i = 0; i < formWidgetBOL.FieldsWidget.List.Count; i++)
+        PdfField field = formWidgetBOL.FieldsWidget.List[i] as PdfField;
+
+        string fieldName = field.Name;
+        //Console.WriteLine(fieldName);
+        //Console.WriteLine(field.Name.GetType());
+        if (field is PdfTextBoxFieldWidget)
         {
-            PdfField field = formWidgetBOL.FieldsWidget.List[i] as PdfField;
-
-            string fieldName = field.Name;
-            //Console.WriteLine(fieldName);
-            //Console.WriteLine(field.Name.GetType());
-            if (field is PdfTextBoxFieldWidget)
+            PdfTextBoxFieldWidget textBoxField = field as PdfTextBoxFieldWidget;
+            switch (textBoxField.Name)
             {
-                PdfTextBoxFieldWidget textBoxField = field as PdfTextBoxFieldWidget;
-                switch (textBoxField.Name)
-                {
-                    case "date":
-                        textBoxField.Text = DateTime.Today.ToString("d");
-                        break;
-                    case "stname": // SHIP TO NAME
-                        textBoxField.Text = "Target DC " + row[datatable.Columns[1]];
-                        break;
-                    case "stadd": // SHIP TO ADDRESS 1ST LINE
-                        textBoxField.Text = row[datatable.Columns[3]].ToString();
-                        break;
-                    case "stcsz": // SHIP TO CITY/STATE/ZIP FIELD
-                        textBoxField.Text = row[datatable.Columns[4]].ToString()+", "+ row[datatable.Columns[5]].ToString()+" "+ Convert.ToInt32(row[datatable.Columns[6]]).ToString("00000");
-                        break;
-                    case "con1": // CUSTOMER ORDER INFO: CUSTOMER ORDER NUMBER
-                        textBoxField.Text = row[datatable.Columns[0]].ToString();
-                        break;
-                    case "pkgs1": // CUSTOMER ORDER INFO: NUMBER OF PKGS
-                        textBoxField.Text = row[datatable.Columns[17]].ToString();
-                        break;
-                    case "pkgstot": // CUSTOMER ORDER INFO: NUMBER OF PKGS TOTAL
-                        textBoxField.Text = row[datatable.Columns[17]].ToString();
-                        break;
-                    case "wgt1": //CUSTOMER ORDER INFO: WEIGHT
-                        textBoxField.Text = row[datatable.Columns[18]].ToString();
-                        break;
-                    case "wgttot": //CUSTOMER ORDER INFO: WEIGHT
-                        textBoxField.Text = row[datatable.Columns[18]].ToString();
-                        break;
-                    case "psy1": //CUSTOMER ORDER INFO: PALLET SLIP (CHECK IF THIS IS FEDEX OR LTL)
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("ltl"))
-                        {
-                            textBoxField.Text = "Y";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "";
-                        }
-                        break;
-                    case "psn1": //CUSTOMER ORDER INFO: PALLET SLIP (CHECK IF THIS IS FEDEX OR LTL)
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "N";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "";
-                        }
-                        break;
+                case "date":
+                    textBoxField.Text = DateTime.Today.ToString("d");
+                    break;
+                case "stname": // SHIP TO NAME
+                    textBoxField.Text = "Target DC " + row[datatable.Columns[1]];
+                    break;
+                case "stadd": // SHIP TO ADDRESS 1ST LINE
+                    textBoxField.Text = row[datatable.Columns[3]].ToString();
+                    break;
+                case "stcsz": // SHIP TO CITY/STATE/ZIP FIELD
+                    textBoxField.Text = row[datatable.Columns[4]].ToString()+", "+ row[datatable.Columns[5]].ToString()+" "+ Convert.ToInt32(row[datatable.Columns[6]]).ToString("00000");
+                    break;
+                case "con1": // CUSTOMER ORDER INFO: CUSTOMER ORDER NUMBER
+                    textBoxField.Text = row[datatable.Columns[0]].ToString();
+                    break;
+                case "pkgs1": // CUSTOMER ORDER INFO: NUMBER OF PKGS
+                    textBoxField.Text = row[datatable.Columns[17]].ToString();
+                    break;
+                case "pkgstot": // CUSTOMER ORDER INFO: NUMBER OF PKGS TOTAL
+                    textBoxField.Text = row[datatable.Columns[17]].ToString();
+                    break;
+                case "wgt1": //CUSTOMER ORDER INFO: WEIGHT
+                    textBoxField.Text = row[datatable.Columns[18]].ToString();
+                    break;
+                case "wgttot": //CUSTOMER ORDER INFO: WEIGHT
+                    textBoxField.Text = row[datatable.Columns[18]].ToString();
+                    break;
+                case "psy1": //CUSTOMER ORDER INFO: PALLET SLIP (CHECK IF THIS IS FEDEX OR LTL)
+                    if (row[datatable.Columns[19]].ToString().ToLower().Equals("ltl"))
+                    {
+                        textBoxField.Text = "Y";
+                    }
+                    else
+                    {
+                        textBoxField.Text = "";
+                    }
+                    break;
+                case "psn1": //CUSTOMER ORDER INFO: PALLET SLIP (CHECK IF THIS IS FEDEX OR LTL)
+                    if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
+                    {
+                        textBoxField.Text = "N";
+                    }
+                    else
+                    {
+                        textBoxField.Text = "";
+                    }
+                    break;
 
-                    // -------------------------------------------------------------------
+                // -------------------------------------------------------------------
 
-                    case "huq1": // CARRIER INFO: HANDLING UNIT: QTY
-                        textBoxField.Text = row[datatable.Columns[17]].ToString();
-                        break;
-                    case "huqtot": // CARRIER INFO: HANDLING UNIT: QTY TOTAL
-                        textBoxField.Text = row[datatable.Columns[17]].ToString();
-                        break;
-                    case "hut1": // CARRIER INFO: HANDLING UNIT: TYPE
-                        textBoxField.Text = "Box";
-                        break;
-                    case "pq1": // CARRIER INFO: PACKAGE: QTY
-                        textBoxField.Text = row[datatable.Columns[16]].ToString();
-                        break;
-                    case "pqtot": // CARRIER INFO: PACKAGE: QTY TOTAL
-                        textBoxField.Text = row[datatable.Columns[16]].ToString();
-                        break;
-                    case "pt1": // CARRIER INFO: PACKAGE: TYPE
-                        textBoxField.Text = "Units";
-                        break;
-                    case "ciw1": //CARRIER INFO:: WEIGHT
-                        textBoxField.Text = row[datatable.Columns[18]].ToString();
-                        break;
-                    case "ciwtot": //CARRIER INFO:: WEIGHT
-                        textBoxField.Text = row[datatable.Columns[18]].ToString();
-                        break;
-                    case "cd1": //CARRIER INFO: COMMODITY DESCRIPTION
-                        textBoxField.Text = "Laundry Detergent Strips";
-                        break;
+                case "huq1": // CARRIER INFO: HANDLING UNIT: QTY
+                    textBoxField.Text = row[datatable.Columns[17]].ToString();
+                    break;
+                case "huqtot": // CARRIER INFO: HANDLING UNIT: QTY TOTAL
+                    textBoxField.Text = row[datatable.Columns[17]].ToString();
+                    break;
+                case "hut1": // CARRIER INFO: HANDLING UNIT: TYPE
+                    textBoxField.Text = "Box";
+                    break;
+                case "pq1": // CARRIER INFO: PACKAGE: QTY
+                    textBoxField.Text = row[datatable.Columns[16]].ToString();
+                    break;
+                case "pqtot": // CARRIER INFO: PACKAGE: QTY TOTAL
+                    textBoxField.Text = row[datatable.Columns[16]].ToString();
+                    break;
+                case "pt1": // CARRIER INFO: PACKAGE: TYPE
+                    textBoxField.Text = "Units";
+                    break;
+                case "ciw1": //CARRIER INFO:: WEIGHT
+                    textBoxField.Text = row[datatable.Columns[18]].ToString();
+                    break;
+                case "ciwtot": //CARRIER INFO:: WEIGHT
+                    textBoxField.Text = row[datatable.Columns[18]].ToString();
+                    break;
+                case "cd1": //CARRIER INFO: COMMODITY DESCRIPTION
+                    textBoxField.Text = "Laundry Detergent Strips";
+                    break;
 
-                    // -------------------------------------------------------------------
+                // -------------------------------------------------------------------
 
-                    case "boln": //BOL NUMBER
-                        textBoxField.Text = row[datatable.Columns[2]].ToString();
-                        break;
-                    case "cn": //CARRIER NAME: FEDEX OR RDWY
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "FEDEX";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "RDWY";
-                        }
-                        break;
-                    case "scac": //SCAC NAME: FEDEX (FDEG OR RDWY)
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "FDEG";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "RBRL";
-                        }
-                        break;
-                    case "class1": //LTL ONLY: First Line of Class
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "55";
-                        }
-                        break;
-                    case "asi1": //CUSTOMER ORDER INFORMATION: ADDITIONAL SHIPPER INFO
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "Individual Carton(s)";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "Pure Pallet(s)";
-                        }
-                        break;
-                }
+                case "boln": //BOL NUMBER
+                    textBoxField.Text = row[datatable.Columns[2]].ToString();
+                    break;
+                case "cn": //CARRIER NAME: FEDEX OR RDWY
+                    if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
+                    {
+                        textBoxField.Text = "FEDEX";
+                    }
+                    else
+                    {
+                        textBoxField.Text = "RDWY";
+                    }
+                    break;
+                case "scac": //SCAC NAME: FEDEX (FDEG OR RDWY)
+                    if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
+                    {
+                        textBoxField.Text = "FDEG";
+                    }
+                    else
+                    {
+                        textBoxField.Text = "RBRL";
+                    }
+                    break;
+                case "class1": //LTL ONLY: First Line of Class
+                    if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
+                    {
+                        textBoxField.Text = "";
+                    }
+                    else
+                    {
+                        textBoxField.Text = "55";
+                    }
+                    break;
+                case "asi1": //CUSTOMER ORDER INFORMATION: ADDITIONAL SHIPPER INFO
+                    if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
+                    {
+                        textBoxField.Text = "Individual Carton(s)";
+                    }
+                    else
+                    {
+                        textBoxField.Text = "Pure Pallet(s)";
+                    }
+                    break;
             }
         }
     }
@@ -207,149 +203,143 @@ foreach (DataRow row in datatable.Rows)
 // THIS IS ENTIRELY FOR CUSTOM GENERATION
 foreach (DataRow row in datatable.Rows)
 {
-    foreach (DataColumn column in datatable.Columns)
+    // Write to PDF
+    foreach (PdfField field in formWidgetCUSTOM.FieldsWidget.List)
     {
-
-        // Write to PDF
-        for (int i = 0; i < formWidgetCUSTOM.FieldsWidget.List.Count; i++)
+        string fieldName = field.Name;
+        //Console.WriteLine(fieldName);
+        //Console.WriteLine(field.Name.GetType());
+        if (field is PdfTextBoxFieldWidget)
         {
-            PdfField field = formWidgetCUSTOM.FieldsWidget.List[i] as PdfField;
-
-            string fieldName = field.Name;
-            //Console.WriteLine(fieldName);
-            //Console.WriteLine(field.Name.GetType());
-            if (field is PdfTextBoxFieldWidget)
+            PdfTextBoxFieldWidget textBoxField = field as PdfTextBoxFieldWidget;
+            switch (textBoxField.Name)
             {
-                PdfTextBoxFieldWidget textBoxField = field as PdfTextBoxFieldWidget;
-                switch (textBoxField.Name)
-                {
-                    case "23 Date":
-                        textBoxField.Text = DateTime.Today.ToString("d");
-                        break;
-                    case "34 Date": // BOTTOM DATE
-                        textBoxField.Text = DateTime.Today.ToString("d");
-                        break;
-                    case "1 Shipper Name": // SHIPPER NAME
-                        textBoxField.Text = "Tru Earth Environmental Products Inc.";
-                        break;
-                    case "1 Shipper Contact": // SHIPPER CONTACT
-                        textBoxField.Text = "Boris Vahrusev";
-                        break;
-                    case "1 Shipper Phone": // SHIPPER PHONE
-                        textBoxField.Text = "(437) 232-8258";
-                        break;
-                    case "1 Shipper Address": // SHIPPER ADDRESS
-                        if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
-                            //textBoxField.FontSizeAuto = true;
-                        }
-                        textBoxField.Text = "3500 Ridgeway Drive, Units 4-6\nMississauga, ON L5L 0A2";
-                        break;
-                    case "4 Consignee Name": // SHIP TO NAME
-                        textBoxField.Text = "Target DC " + row[datatable.Columns[1]];
-                        break;
-                    case "4 Consignee Address": // SHIP TO ADDRESS 1ST LINE + 2ND LINE
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
-                            //textBoxField.FontSizeAuto = true;
-                        }
-                        textBoxField.Text = row[datatable.Columns[3]].ToString() + "\n" + row[datatable.Columns[4]].ToString() + ", " + row[datatable.Columns[5]].ToString() + " " + Convert.ToInt32(row[datatable.Columns[6]]).ToString("00000");
-                        break;
-                    case "5 Buyer Name": // Hard Code BUYER INFO
-                        textBoxField.Text = "Target Corp C/O CHRLTL";
-                        break;
-                    case "3 Other Ref Nos": // CUSTOMER ORDER INFO: CUSTOMER ORDER NUMBER
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
-                            //textBoxField.FontSizeAuto = true;
-                        }
-                        textBoxField.Text = "BOL:\n "+row[datatable.Columns[20]].ToString() + "\n \n PO:\n " + row[datatable.Columns[0]].ToString();
-                        break;
-                    case "18_1": // CUSTOMER ORDER INFO: NUMBER OF PKGS
-                        textBoxField.Text = row[datatable.Columns[17]].ToString();
-                        break;
-                    case "24 Total Packages": // CUSTOMER ORDER INFO: NUMBER OF PKGS TOTAL
-                        textBoxField.Text = row[datatable.Columns[17]].ToString();
-                        break;
-                    case "20Grs_1": //CUSTOMER ORDER INFO: WEIGHT GROSS
-                        textBoxField.Text = row[datatable.Columns[18]].ToString();
-                        break;
-                    case "Gross Shipping Weight": //CUSTOMER ORDER INFO: WEIGHT GROSS
-                        textBoxField.Text = row[datatable.Columns[18]].ToString();
-                        break;
-                    case "20Net_1": //CUSTOMER ORDER INFO: WEIGHT NET
-                        textBoxField.Text = "10.7";
-                        break;
-                    case "22_1": // UNIT PRICE
-                        textBoxField.Text = "7.38";
-                        break;
-                    case "23_1": // CARRIER INFO: HANDLING UNIT: QTY TOTAL
-                        textBoxField.Text = "$"+(Convert.ToInt32(row[datatable.Columns[16]])*7.38).ToString("#,##0.00");
-                        break;
-                    case "26total": // CARRIER INFO: HANDLING UNIT: QTY TOTAL
-                        textBoxField.Text = "$" + (Convert.ToInt32(row[datatable.Columns[16]]) * 7.38).ToString("#,##0.00");
-                        break;
-                    case "21UOM_1": // CARRIER INFO: HANDLING UNIT: EOM
-                        textBoxField.Text = "EACH";
-                        break;
-                    case "21Units_1": // CARRIER INFO: PACKAGE: QTY
-                        textBoxField.Text = row[datatable.Columns[16]].ToString();
-                        break;
-                    case "2 Exporter Name": // EXPORTER NAME
-                        textBoxField.Text = "Tru Earth Environmental Products Inc.";
-                        break;
-                    case "2 Exporter Contact": // EXPORTER CONTACT
-                        textBoxField.Text = "Jeerus Singla";
-                        break;
-                    case "2 Exporter Phone": // EXPORTER CONTACT
-                        textBoxField.Text = "(236) 326-3854";
-                        break;
-                    case "2 Exporter Address": // EXPORTER CONTACT
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-                            textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 12), true);
-                            //textBoxField.FontSizeAuto = true;
-                        }
-                        textBoxField.Text = "7500 Winston Street, Unit 108\nBurnaby, BC V5A 4J8";
-                        break;
-                    case "4 Consignee IRS EIN SSN": // CONSIGNEE IRS EIN SSN
-                        textBoxField.Text = "41-0215170";
-                        break;
-                    case "8 ORIGIN COUNTRYPROVINCE": // EXPORTER NAME
-                        textBoxField.Text = "CA/NB";
-                        break;
-                    case "9 DESTINATION COUNTRYSTATE": // EXPORTER CONTACT
-                        textBoxField.Text = "US/CA";
-                        break;
-                    case "13 Terms of Sale Payment and Discount": // EXPORTER CONTACT
-                        textBoxField.Text = "Collect";
-                        break;
-                    case "14 Currency Used": // CURRENCY USED
-                        textBoxField.Text = "USD";
-                        break;
-                    case "19_1": // DESCRIPTION OF GOODS
-                        textBoxField.Text = "Laundry Detergent Strips";
-                        break;
-                    case "17_1": // HS CODE
-                        textBoxField.Text = "3402.50";
-                        break;
-                    case "16_1": // COUNTRY OF ORIGIN
-                        textBoxField.Text = "CA";
-                        break;
-                    case "11 LOCAL CARRIER": //CARRIER NAME: FEDEX OR RDWY
-                        if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
-                        {
-                            textBoxField.Text = "FEDEX";
-                        }
-                        else
-                        {
-                            textBoxField.Text = "RDWY";
-                        }
-                        break;
-                }
+                case "23 Date":
+                    textBoxField.Text = DateTime.Today.ToString("d");
+                    break;
+                case "34 Date": // BOTTOM DATE
+                    textBoxField.Text = DateTime.Today.ToString("d");
+                    break;
+                case "1 Shipper Name": // SHIPPER NAME
+                    textBoxField.Text = "Tru Earth Environmental Products Inc.";
+                    break;
+                case "1 Shipper Contact": // SHIPPER CONTACT
+                    textBoxField.Text = "Boris Vahrusev";
+                    break;
+                case "1 Shipper Phone": // SHIPPER PHONE
+                    textBoxField.Text = "(437) 232-8258";
+                    break;
+                case "1 Shipper Address": // SHIPPER ADDRESS
+                    if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
+                        //textBoxField.FontSizeAuto = true;
+                    }
+                    textBoxField.Text = "3500 Ridgeway Drive, Units 4-6\nMississauga, ON L5L 0A2";
+                    break;
+                case "4 Consignee Name": // SHIP TO NAME
+                    textBoxField.Text = "Target DC " + row[datatable.Columns[1]];
+                    break;
+                case "4 Consignee Address": // SHIP TO ADDRESS 1ST LINE + 2ND LINE
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
+                        //textBoxField.FontSizeAuto = true;
+                    }
+                    textBoxField.Text = row[datatable.Columns[3]].ToString() + "\n" + row[datatable.Columns[4]].ToString() + ", " + row[datatable.Columns[5]].ToString() + " " + Convert.ToInt32(row[datatable.Columns[6]]).ToString("00000");
+                    break;
+                case "5 Buyer Name": // Hard Code BUYER INFO
+                    textBoxField.Text = "Target Corp C/O CHRLTL";
+                    break;
+                case "3 Other Ref Nos": // CUSTOMER ORDER INFO: CUSTOMER ORDER NUMBER
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 11), true);
+                        //textBoxField.FontSizeAuto = true;
+                    }
+                    textBoxField.Text = "BOL:\n "+row[datatable.Columns[20]].ToString() + "\n \n PO:\n " + row[datatable.Columns[0]].ToString();
+                    break;
+                case "18_1": // CUSTOMER ORDER INFO: NUMBER OF PKGS
+                    textBoxField.Text = row[datatable.Columns[17]].ToString();
+                    break;
+                case "24 Total Packages": // CUSTOMER ORDER INFO: NUMBER OF PKGS TOTAL
+                    textBoxField.Text = row[datatable.Columns[17]].ToString();
+                    break;
+                case "20Grs_1": //CUSTOMER ORDER INFO: WEIGHT GROSS
+                    textBoxField.Text = row[datatable.Columns[18]].ToString();
+                    break;
+                case "Gross Shipping Weight": //CUSTOMER ORDER INFO: WEIGHT GROSS
+                    textBoxField.Text = row[datatable.Columns[18]].ToString();
+                    break;
+                case "20Net_1": //CUSTOMER ORDER INFO: WEIGHT NET
+                    textBoxField.Text = "10.7";
+                    break;
+                case "22_1": // UNIT PRICE
+                    textBoxField.Text = "7.38";
+                    break;
+                case "23_1": // CARRIER INFO: HANDLING UNIT: QTY TOTAL
+                    textBoxField.Text = "$"+(Convert.ToInt32(row[datatable.Columns[16]])*7.38).ToString("#,##0.00");
+                    break;
+                case "26total": // CARRIER INFO: HANDLING UNIT: QTY TOTAL
+                    textBoxField.Text = "$" + (Convert.ToInt32(row[datatable.Columns[16]]) * 7.38).ToString("#,##0.00");
+                    break;
+                case "21UOM_1": // CARRIER INFO: HANDLING UNIT: EOM
+                    textBoxField.Text = "EACH";
+                    break;
+                case "21Units_1": // CARRIER INFO: PACKAGE: QTY
+                    textBoxField.Text = row[datatable.Columns[16]].ToString();
+                    break;
+                case "2 Exporter Name": // EXPORTER NAME
+                    textBoxField.Text = "Tru Earth Environmental Products Inc.";
+                    break;
+                case "2 Exporter Contact": // EXPORTER CONTACT
+                    textBoxField.Text = "Jeerus Singla";
+                    break;
+                case "2 Exporter Phone": // EXPORTER CONTACT
+                    textBoxField.Text = "(236) 326-3854";
+                    break;
+                case "2 Exporter Address": // EXPORTER CONTACT
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        textBoxField.Font = new PdfTrueTypeFont(new Font("Arial", 12), true);
+                        //textBoxField.FontSizeAuto = true;
+                    }
+                    textBoxField.Text = "7500 Winston Street, Unit 108\nBurnaby, BC V5A 4J8";
+                    break;
+                case "4 Consignee IRS EIN SSN": // CONSIGNEE IRS EIN SSN
+                    textBoxField.Text = "41-0215170";
+                    break;
+                case "8 ORIGIN COUNTRYPROVINCE": // EXPORTER NAME
+                    textBoxField.Text = "CA/NB";
+                    break;
+                case "9 DESTINATION COUNTRYSTATE": // EXPORTER CONTACT
+                    textBoxField.Text = "US/CA";
+                    break;
+                case "13 Terms of Sale Payment and Discount": // EXPORTER CONTACT
+                    textBoxField.Text = "Collect";
+                    break;
+                case "14 Currency Used": // CURRENCY USED
+                    textBoxField.Text = "USD";
+                    break;
+                case "19_1": // DESCRIPTION OF GOODS
+                    textBoxField.Text = "Laundry Detergent Strips";
+                    break;
+                case "17_1": // HS CODE
+                    textBoxField.Text = "3402.50";
+                    break;
+                case "16_1": // COUNTRY OF ORIGIN
+                    textBoxField.Text = "CA";
+                    break;
+                case "11 LOCAL CARRIER": //CARRIER NAME: FEDEX OR RDWY
+                    if (row[datatable.Columns[19]].ToString().ToLower().Equals("fedex"))
+                    {
+                        textBoxField.Text = "FEDEX";
+                    }
+                    else
+                    {
+                        textBoxField.Text = "RDWY";
+                    }
+                    break;
             }
         }
     }
